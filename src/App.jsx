@@ -5,7 +5,7 @@ import Slider from './Slider';
 
 function App() {
   const [celebration, setCelebration] = useState({ show: false, type: '', message: '' });
-
+  //commentary messages
   const commentary = {
     6: ["Smashed into the stands!", "That's a massive hit!", "Out of the park!", "What a cracker!", "Absolute power!"],
     4: ["Beautifully timed boundary!", "Finds the gap!", "Race to the fence!", "Pure class!", "Shot of the day!"],
@@ -24,6 +24,8 @@ function App() {
   const isGameOver = useRef(0);
   const [gameOver, setGameOver] = useState(false);
 
+
+  //probability distributions
   const aggresiveStyle = {
     wickets: [0.00, 0.40],
     runs0: [0.41, 0.45],
@@ -53,6 +55,7 @@ function App() {
     isBowled.current = 0;
   };
 
+  //handling left and right shots
   function handleShot(side) {
 
     // 1. Stop the Slider and change the image to the shot
@@ -99,6 +102,8 @@ function App() {
 
   }
 
+
+  //setting the runs and commentaries
   function setResult(result) {
     let newWickets = wickets;
     let newBalls = balls + 1;
@@ -143,6 +148,7 @@ function App() {
     }
   }
 
+  //game over screen
   if (gameOver) {
     return (
       <div className="game-over-screen">

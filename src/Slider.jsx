@@ -3,6 +3,9 @@ import { useEffect, useState, useRef } from "react";
 export default function Slider({ pstyle, isShot,setResult }) {
     const [arrowPos, setArrowPos] = useState(0);
     const dirRef = useRef(1); // useRef instead of useState for dir
+
+
+    //the segments of the sliders
     const segRefs = {
         wicket: useRef(null),
         runs0: useRef(null),
@@ -13,6 +16,8 @@ export default function Slider({ pstyle, isShot,setResult }) {
         runs6: useRef(null)
     };
 
+
+    //updating slider pointer positions
     useEffect(() => {
         const interval = setInterval(() => {
             if (!isShot) {
@@ -27,10 +32,10 @@ export default function Slider({ pstyle, isShot,setResult }) {
                 let next = prev + dirRef.current;
 
                 if (next >= 95) {
-                    dirRef.current = -1;  // ← ref update is fine here
+                    dirRef.current = -1;  
                     next = 95;
                 } else if (next <= 0) {
-                    dirRef.current = 1;   // ← ref update is fine here
+                    dirRef.current = 1; 
                     next = 0;
                 }
                 return next;
@@ -41,6 +46,8 @@ export default function Slider({ pstyle, isShot,setResult }) {
     }, [isShot]);
 
 
+
+    //changing the color of semgnet when it is selected
     useEffect(() => {
         if (!isShot) {
             // Check where the arrow landed

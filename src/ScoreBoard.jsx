@@ -4,6 +4,8 @@ export default function Scoreboard({ runs = 47, wickets = 1, balls = 7 }) {
   const overs = Math.floor(balls / 6);
   const ballsInOver = balls % 6;
 
+
+  //displaying scorecard
   return (
     <div className="scoreboard-wrapper">
       <div className="scoreboard">
