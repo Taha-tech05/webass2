@@ -1,5 +1,19 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  /* This prevents the "bounce" or scrolling on mobile */
+  overflow: hidden; 
+  position: fixed; 
+}
+
 body {
-   background-image: url('../public/images/bg.jpeg');
-    background-size: cover;
-    background-repeat: no-repeat;
+  background-image: url('../public/images/bg.jpeg');
+  background-size: cover;
+  background-position: center center; /* Keeps the pitch centered */
+  background-repeat: no-repeat;
+  /* Use viewport units to ensure it fills the whole screen */
+  height: 100vh;
+  width: 100vw;
 }

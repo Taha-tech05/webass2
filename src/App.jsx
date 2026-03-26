@@ -1,10 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
 import Scoreboard from './ScoreBoard';
 import { useEffect, useState, useRef } from 'react';
 import Slider from './Slider';
 
 function App() {
+  const [celebration, setCelebration] = useState({ show: false, type: '', message: '' });
+
+  const commentary = {
+    6: ["Smashed into the stands!", "That's a massive hit!", "Out of the park!", "What a cracker!", "Absolute power!"],
+    4: ["Beautifully timed boundary!", "Finds the gap!", "Race to the fence!", "Pure class!", "Shot of the day!"],
+    'Wicket': ["Gone! The stumps are rattled!", "Clean bowled!","Bullzaeeee!!!"]
+  };
 
   const [style, setStyle] = useState('Aggressive');
   const [isShot, setIsShot] = useState(1);
@@ -94,27 +100,44 @@ function App() {
   }
 
   function setResult(result) {
-
-    // Calculate new values locally to check game over immediately
     let newWickets = wickets;
     let newBalls = balls + 1;
-
     setBalls(newBalls);
 
     if (result === 'Wicket') {
-      newWickets = wickets + 1; // Increment local variable
+      newWickets = wickets + 1;
       setWickets(newWickets);
       isBowled.current = 1;
+
+      // --- NEW WICKET CELEBRATION LOGIC ---
+      const messages = commentary['Wicket'];
+      const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+      setTimeout(() => {
+        setCelebration({ show: true, type: 'Wicket', message: randomMessage });
+      }, 2500);
+
+      setTimeout(() => {
+        setCelebration({ show: false, type: '', message: '' });
+      }, 4000);
+      // ------------------------------------
+
     } else {
-      // Handle runs
-      const runMap = {
-        '1 Run': 1, '2 Runs': 2, '3 Runs': 3, '4 Runs': 4, '6 Runs': 6
-      };
+      const runMap = { '1 Run': 1, '2 Runs': 2, '3 Runs': 3, '4 Runs': 4, '6 Runs': 6 };
       const addedRuns = runMap[result] || 0;
       setRuns(prev => prev + addedRuns);
+
+      if (addedRuns === 4 || addedRuns === 6) {
+        const messages = commentary[addedRuns];
+        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+        setTimeout(() => {
+          setCelebration({ show: true, type: addedRuns, message: randomMessage });
+        }, 2500);
+        setTimeout(() => {
+          setCelebration({ show: false, type: '', message: '' });
+        }, 4000);
+      }
     }
 
-    // Check against the updated local variables
     if (newWickets >= 2 || newBalls >= 12) {
       isGameOver.current = 1;
     }
@@ -155,6 +178,14 @@ function App() {
 
       <Slider pstyle={style === 'Aggressive' ? aggresiveStyle : defensiveStyle} isShot={isShot} setResult={setResult} />
 
+      {celebration.show && (
+        <div className={`celebration-overlay ${celebration.type === 6 ? 'six-bg' :
+          celebration.type === 4 ? 'four-bg' : 'wicket-bg'
+          }`}>
+          <h1 className="zoom-in">{celebration.type}!</h1>
+          <p className="fade-up">{celebration.message}</p>
+        </div>
+      )}
 
     </div>
   );
