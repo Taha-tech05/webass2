@@ -1,38 +1,495 @@
-.App {
-  text-align: center;
-}
+.App {}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@keyframes animateBall {
+  0% {
+    top: var(--ball-top, 42%);
+    left: var(--ball-left, 58.5%);
+    width: 10px;
   }
+
+  50% {
+    top: var(--ball-top, 68%);
+    left: var(--ball-left, 58.5%);
+    width: 20px;
+  }
+
+  100% {
+    top: var(--ball-top, 58%);
+    left: var(--ball-left, 51%);
+    width: 40px;
+  }
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.batsman {
+  position: absolute;
+  top: 68%;
+  left: 51%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+
+.ball {
+  position: absolute;
+  top: 42%;
+  left: 58.5%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+}
+
+.ballAnimate{
+  animation-name: animateBall;
+  animation-duration: 2s;
+  transition: top 0.5s, left 0.5s, width 0.5s;
+}
+
+@keyframes animateRightAggShot {
+  0% {
+    top: 58%;
+    left: 51%;
+    width: 40px;
+  }
+
+  100% {
+    top: 18%;
+    left: 100%;
+    width: 10px;
+  }
+  
+}
+
+.rightAggShot{
+  animation-name:animateRightAggShot;
+  animation-duration: 2s;
+  transition: top 0.5s, left 0.5s, width 0.5s;
+}
+
+@keyframes animateleftAggShot {
+  0% {
+    top: 58%;
+    left: 51%;
+    width: 50px;
+  }
+
+  100% {
+    top: 18%;
+    left: 0%;
+    width: 10px;
+  }
+  
+}
+
+
+.leftAggShot{
+  animation-name:animateleftAggShot;
+  animation-duration: 2s;
+  transition: top 0.5s, left 0.5s, width 0.5s;
+}
+
+
+
+@keyframes animateRightDefShot {
+  0% {
+    top: 58%;
+    left: 51%;
+    width: 40px;
+  }
+
+  100% {
+    top: 52%;
+    left: 100%;
+    width: 10px;
+  }
+  
+}
+
+.rightDefShot{
+  animation-name:animateRightDefShot;
+  animation-duration: 2s;
+  transition: top 0.5s, left 0.5s, width 0.5s;
+}
+
+@keyframes animateleftDefShot {
+  0% {
+    top: 58%;
+    left: 51%;
+    width: 50px;
+  }
+
+  100% {
+    top: 52%; 
+    left: 0%;
+    width: 10px;
+  }
+  
+}
+
+
+.leftDefShot{
+  animation-name:animateleftDefShot;
+  animation-duration: 2s;
+  transition: top 0.5s, left 0.5s, width 0.5s;
+}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+.scoreboard-wrapper {
+  font-family: 'Oswald', serif;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 100;
+}
+
+.scoreboard {
+  background: linear-gradient(135deg, #1a2e1a 0%, #0d1f0d 100%);
+  border: 2px solid #4a7c3f;
+  border-radius: 4px;
+  width: 200px;
+  box-shadow: 0 0 40px rgba(74,124,63,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
+}
+
+/* Header */
+.scoreboard-header {
+  background: linear-gradient(90deg, #2d5a1b, #1a3d10, #2d5a1b);
+  padding: 6px 12px;
+  text-align: center;
+  border-bottom: 1px solid #4a7c3f;
+  position: relative;
+}
+
+.scoreboard-header .icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+}
+
+.scoreboard-header .title {
+  color: #c8e6c0;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.live-dot {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff4444;
+  box-shadow: 0 0 6px #ff4444;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Main Score */
+.main-score {
+  padding: 8px 12px 6px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: baseline;
+  gap: 4px;
+}
+
+.runs {
+  font-size: 36px;
+  font-weight: 700;
+  color: #f0fff0;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-shadow: 0 0 30px rgba(144,238,144,0.3);
+}
+
+.wickets {
+  font-size: 20px;
+  color: #ff6b6b;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.wkt-label {
+  font-size: 10px;
+  color: #6a9e6a;
+  margin-left: 4px;
+  letter-spacing: 1px;
+}
+
+/* Divider */
+.h-divider {
+  height: 1px;
+  margin: 0 12px;
+  background: linear-gradient(90deg, transparent, #4a7c3f, transparent);
+}
+
+/* Stats Row */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr 1px 1fr;
+  padding: 6px 0;
+  margin: 0 4px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 4px 6px;
+}
+
+.stat-value {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.stat-value.overs  { color: #90ee90; }
+.stat-value.balls  { color: #ffd700; }
+.stat-value.wkts   { color: #ff9999; }
+.stat-value.danger { color: #ff6b6b; }
+
+.stat-label {
+  font-size: 8px;
+  color: #5a8a5a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.v-divider {
+  background: #2a4a2a;
+  margin: 8px 0;
+}
+
+/* Progress */
+.progress-section {
+  padding: 0 12px 10px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 8px;
+  color: #5a8a5a;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.progress-track {
+  height: 4px;
+  background: #1a2e1a;
+  border-radius: 3px;
+  border: 1px solid #2a4a2a;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4a7c3f, #90ee90);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  box-shadow: 0 0 8px rgba(144,238,144,0.5);
+}
+
+/* Ball dots */
+.ball-dots {
+  display: flex;
+  gap: 2px;
+  margin-top: 5px;
+  flex-wrap: wrap;
+}
+
+.ball-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #2a4a2a;
+  background: #1a2e1a;
+  transition: all 0.3s ease;
+}
+
+.ball-dot.played {
+  background: linear-gradient(135deg, #c8522a, #8b3010);
+  border-color: #e06030;
+  box-shadow: 0 0 4px rgba(200,82,42,0.4);
+}
+
+button{
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 120px;
+  background-color:yellow;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.Aggressive {
+  position: absolute;
+  top: 10px;
+  right:10px;
+}
+.Defensive {
+  position: absolute;
+  top: 60px;
+  right:10px;
+}
+
+
+button:hover{
+  transform: scale(1.05);
+  background-color: #4a7c3f;
+}
+
+.bar{
+  display:flex;
+  width: 680px;
+  position: absolute;
+  left:400px;
+}
+
+.segment{
+  width: 85px;
+  height: 30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:black;
+  font-size:10px;
+  transition: background-color 0.3s ease;
+
+}
+
+
+.seg-wicket{
+  border-radius: 10px 0px 0px 10px;
+  background-color:yellow;
+}
+.seg-0{
+  background-color:greenyellow;
+}
+.seg-1{
+  background-color:blue;
+}
+.seg-2{
+  background-color:orange;
+}
+.seg-3{
+  background-color:purple;  
+}
+.seg-4{
+  background-color:pink;
+}
+.seg-6{
+  border-radius: 0px 10px 10px 0px;
+  background-color:violet;
+}
+
+.arrow{
+  position: absolute;
+  top: 30px;
+  width: 0; 
+  height: 0; 
+  color:black;
+}
+
+
+/* Beautiful Shot Buttons */
+.shot-btn {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.shot-btn:hover {
+  background: #f1c40f; /* Cricket ball yellow/gold */
+  color: #2c3e50;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(241, 196, 15, 0.4);
+}
+
+.shot-btn:active {
+  transform: translateY(0);
+}
+
+/* Specific Positioning */
+.shot-btn.left {
+  position: absolute;
+  top:58%;
+  left: 20%;
+  margin-right: 20px;
+}
+
+.shot-btn.right {
+  position: absolute;
+  top:58%;
+  left: 80%;
+  margin-left: 20px;
+}
+
+/* Style for the Mode Buttons (Aggressive/Defensive) */
+.controls {
+  margin-top: 20px;
+}
+
+.mode-btn {
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  background: #34495e;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.mode-btn.active {
+  background: #e74c3c; /* Red for active state */
+} 
+
+.game-over-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.restart-btn {
+  padding: 15px 30px;
+  font-size: 20px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
